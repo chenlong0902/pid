@@ -1,7 +1,7 @@
 ﻿#include "widget.h"
 #include "ui_widget.h"
 #include <QDateTime>
-
+#include <QButtonGroup>
 
 #define MAXOUT 1000                 //输出最大值
 
@@ -9,9 +9,15 @@
 Widget::Widget(QWidget *parent)
     : QWidget(parent),
       ui(new Ui::Widget),
-      timestamp(0)
+      m_testID(0),
+      m_timeRange(10.0)
 {
     ui->setupUi(this);
+    timestampList[0] = 0;
+    timestampList[1] = 0;
+    timestampList[2] = 0;
+    timestampList[3] = 0;
+    InitUI();
     InitChart();
     InitPID(&IncPID_data, 0.15, 0.15, 0.00, 0.00, 50.00);
 
@@ -22,20 +28,42 @@ Widget::~Widget()
     delete ui;
 }
 
+void Widget::InitUI(){
+    ui->radioButton_1->setStyleSheet("color: #ff0000;");
+    ui->radioButton_2->setStyleSheet("color: #00ff00;");
+    ui->radioButton_3->setStyleSheet("color: #0000ff;");
+    ui->radioButton_4->setStyleSheet("color: #aaaaaa;");
+    buttonGroup = new QButtonGroup;
+    buttonGroup->addButton(ui->radioButton_1,0);
+    buttonGroup->addButton(ui->radioButton_2,1);
+    buttonGroup->addButton(ui->radioButton_3,2);
+    buttonGroup->addButton(ui->radioButton_4,3);
+    buttonGroup->setExclusive(true);
+    connect(buttonGroup,SIGNAL(buttonClicked(int)),this,SLOT(on_ButtonGroup_changed(int)));
+}
+
 void Widget::InitChart(){
-    m_series = new QSplineSeries();
-    m_series->setName("spline");
+
+    Qt::GlobalColor colors[4] = {Qt::red,Qt::green,Qt::blue,Qt::gray};
+    for(int i = 0; i < 4; i++){
+        seriesList[i] = new QSplineSeries();
+        seriesList[i]->setName(QString("测试%1").arg(i+1));
+        seriesList[i]->setColor(colors[i]);
+    }
+
     //![1]
 
     //![2]
 
     m_chart = new QChart();
     m_chart->legend()->show();
-    m_chart->addSeries(m_series);
+    for(int i = 0; i < 4; i++){
+        m_chart->addSeries(seriesList[i]);
+    }
     m_chart->setTitle("Simple spline chart example");
     m_chart->createDefaultAxes();
     m_chart->axes(Qt::Vertical).first()->setRange(0, 40);
-    m_chart->axes(Qt::Horizontal).first()->setRange(0, 10);
+    m_chart->axes(Qt::Horizontal).first()->setRange(0, m_timeRange);
 
 //    m_series->append(0,5);
 //    m_series->append(5.5,10);
@@ -53,7 +81,7 @@ void Widget::InitChart(){
     //![4]
     QChartView *chartView = new QChartView(m_chart,this);
     chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setGeometry(20,20,780,350);
+    chartView->setGeometry(0,0,1000,400);
 }
 
 void Widget::InitPID(IncPID *IncPID, float Kp, float Ki, float Kd, float val_min, float val_max)
@@ -85,6 +113,10 @@ void Widget::InitPID(IncPID *IncPID, float Kp, float Ki, float Kd, float val_min
     ui->lineEdit_d->setText(QString::number(Kd));
 }
 
+void Widget::on_ButtonGroup_changed(int id)
+{
+    m_testID = id;
+}
 void Widget::on_pushButton_start_clicked(){
     ui->label_curspeed->setText(ui->lineEdit_startspeed->text());
     IncPID_data.cul_val = ui->lineEdit_startspeed->text().toFloat();
@@ -99,7 +131,7 @@ void Widget::on_pushButton_stop_clicked(){
     if(m_timerID > 0){
         killTimer(m_timerID);
         m_timerID = 0;
-        timestamp = 0;
+        timestampList[m_testID] = 0;
     }
 }
 
@@ -107,10 +139,12 @@ void Widget::on_pushButton_reset_clicked(){
     if(m_timerID > 0){
         killTimer(m_timerID);
         m_timerID = 0;
-        timestamp = 0;
+    }
+    for(int i = 0; i < 4; i++){
+        seriesList[i]->clear();
+        timestampList[i] = 0;
     }
 
-    m_series->clear();
     ui->label_curspeed->setText(ui->lineEdit_startspeed->text());
     IncPID_data.cul_val = ui->lineEdit_startspeed->text().toFloat();
     IncPID_data.set_val = ui->lineEdit_targetspeed->text().toFloat();
@@ -124,15 +158,19 @@ void Widget::timerEvent(QTimerEvent *e){
         IncPID_data.cul_val += CalcPID(&IncPID_data);
         ui->label_curspeed->setText(QString::number(IncPID_data.cul_val));
         cout<<"速度为: "<<IncPID_data.cul_val<<endl;
-        if(timestamp == 0){
-            m_series->append(0,IncPID_data.cul_val);
-            timestamp = QDateTime::currentMSecsSinceEpoch();
+        if(timestampList[m_testID] == 0){
+            seriesList[m_testID]->append(0,IncPID_data.cul_val);
+            timestampList[m_testID] = QDateTime::currentMSecsSinceEpoch();
         }
         else{
             qint64 curtimestamp = QDateTime::currentMSecsSinceEpoch();
-            float difSec = (curtimestamp - timestamp)/1000.f;
-            m_chart->axes(Qt::Horizontal).first()->setRange(0, difSec);
-            m_series->append(difSec,IncPID_data.cul_val);
+            float difSec = (curtimestamp - timestampList[m_testID])/1000.f;
+            if(m_timeRange < difSec){
+                m_timeRange += 5;
+                m_chart->axes(Qt::Horizontal).first()->setRange(0, m_timeRange);
+            }
+
+            seriesList[m_testID]->append(difSec,IncPID_data.cul_val);
 
         }
     }

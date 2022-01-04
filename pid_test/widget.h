@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QtCharts/QChartView>
 #include <QtCharts/QSplineSeries>
+#include <QButtonGroup>
 #include <iostream>
 #include "def.h"
 QT_BEGIN_NAMESPACE
@@ -21,6 +22,7 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
+    void InitUI();
     void InitChart();
     void InitPID(IncPID *IncPID, float Kp, float Ki, float Kd, float val_min, float val_max);
     float CalcPID(IncPID *IncPID);
@@ -30,16 +32,20 @@ public:
 protected:
     virtual void timerEvent(QTimerEvent *e);
 public slots:
+    void on_ButtonGroup_changed(int id);
     void on_pushButton_start_clicked();
     void on_pushButton_stop_clicked();
     void on_pushButton_reset_clicked();
 
 private:
-    qint64 timestamp;
-    QSplineSeries *m_series;
-    IncPID IncPID_data;
+    int m_testID;
+    qint64 timestampList[4];
 
+    QSplineSeries *seriesList[4];
+    IncPID IncPID_data;
+    QButtonGroup *buttonGroup;
     QChart *m_chart;
+    float m_timeRange;
 private:
     Ui::Widget *ui;
 };

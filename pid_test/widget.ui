@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>832</width>
-    <height>679</height>
+    <width>1079</width>
+    <height>710</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>470</y>
+     <x>240</x>
+     <y>500</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -41,8 +41,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>410</y>
+     <x>240</x>
+     <y>440</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -63,8 +63,8 @@
   <widget class="QLineEdit" name="lineEdit_startspeed">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>410</y>
+     <x>340</x>
+     <y>440</y>
      <width>113</width>
      <height>31</height>
     </rect>
@@ -82,8 +82,8 @@
   <widget class="QLineEdit" name="lineEdit_targetspeed">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>470</y>
+     <x>340</x>
+     <y>500</y>
      <width>113</width>
      <height>31</height>
     </rect>
@@ -101,8 +101,8 @@
   <widget class="QPushButton" name="pushButton_start">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>580</y>
+     <x>240</x>
+     <y>610</y>
      <width>111</width>
      <height>61</height>
     </rect>
@@ -123,8 +123,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>410</y>
+     <x>530</x>
+     <y>440</y>
      <width>21</width>
      <height>31</height>
     </rect>
@@ -145,8 +145,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>470</y>
+     <x>530</x>
+     <y>500</y>
      <width>21</width>
      <height>31</height>
     </rect>
@@ -167,8 +167,8 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>530</y>
+     <x>530</x>
+     <y>560</y>
      <width>21</width>
      <height>31</height>
     </rect>
@@ -189,8 +189,8 @@
   <widget class="QLineEdit" name="lineEdit_p">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>410</y>
+     <x>560</x>
+     <y>440</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -208,8 +208,8 @@
   <widget class="QLineEdit" name="lineEdit_i">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>470</y>
+     <x>560</x>
+     <y>500</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -227,8 +227,8 @@
   <widget class="QLineEdit" name="lineEdit_d">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>530</y>
+     <x>560</x>
+     <y>560</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -246,8 +246,8 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>530</y>
+     <x>240</x>
+     <y>560</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -268,8 +268,8 @@
   <widget class="QLabel" name="label_curspeed">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>535</y>
+     <x>340</x>
+     <y>565</y>
      <width>111</width>
      <height>21</height>
     </rect>
@@ -281,8 +281,8 @@
   <widget class="QPushButton" name="pushButton_reset">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>580</y>
+     <x>510</x>
+     <y>610</y>
      <width>111</width>
      <height>61</height>
     </rect>
@@ -303,18 +303,18 @@
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>40</x>
      <y>20</y>
-     <width>621</width>
-     <height>321</height>
+     <width>1000</width>
+     <height>400</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_stop">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>580</y>
+     <x>380</x>
+     <y>610</y>
      <width>111</width>
      <height>61</height>
     </rect>
@@ -330,6 +330,61 @@
    </property>
    <property name="text">
     <string>停止</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_1">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>440</y>
+     <width>110</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>测试1</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_2">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>490</y>
+     <width>110</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>测试2</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_3">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>540</y>
+     <width>110</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>测试3</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_4">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>590</y>
+     <width>110</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>测试4</string>
    </property>
   </widget>
  </widget>
